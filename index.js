@@ -70,5 +70,54 @@ window.addEventListener("load", () => {
 window.addEventListener("resize", init);
 
 window.addEventListener("click", () => {
-  createRing();
+  const ringImg = document.querySelector("#ring");
+  const texts = document.querySelectorAll("span");
+  const countDownOption = {
+    opacity: 1,
+    scale: 1,
+    duration: 0.4,
+    ease: "Power4.easeOut",
+  };
+
+  // 1초씩 카운트다운
+  gsap.fromTo(
+    texts[0],
+    { opacity: 0, scale: 5 },
+    {
+      ...countDownOption,
+    }
+  );
+  gsap.fromTo(
+    texts[1],
+    { opacity: 0, scale: 5 },
+    {
+      ...countDownOption,
+      delay: 1,
+      onStart: () => (texts[0].style.opacity = 0),
+    }
+  );
+  gsap.fromTo(
+    texts[2],
+    { opacity: 0, scale: 5 },
+    {
+      ...countDownOption,
+      delay: 2,
+      onStart: () => (texts[1].style.opacity = 0),
+    }
+  );
+
+  // 링 이미지 사라지게
+  gsap.fromTo(
+    ringImg,
+    { opacity: 1 },
+    {
+      opacity: 0,
+      duration: 1,
+      delay: 3,
+      onStart: () => {
+        createRing();
+        texts[2].style.opacity = 0;
+      },
+    }
+  );
 });
